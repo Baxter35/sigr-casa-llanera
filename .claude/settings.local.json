@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"c:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\\\\src\\\\app\\\\api\\\\auth\\\\[...nextauth]\" 2>/dev/null; echo \"done\")",
+      "Bash(npx prisma *)",
+      "Bash(npm --version)",
+      "PowerShell(Get-Command node -ErrorAction SilentlyContinue)",
+      "PowerShell(node --version)",
+      "PowerShell(Get-ChildItem \"C:\\\\Program Files\\\\nodejs\" -ErrorAction SilentlyContinue | Select-Object Name; Get-ChildItem \"$env:APPDATA\\\\npm\" -ErrorAction SilentlyContinue | Select-Object Name -First 5; Get-ChildItem \"$env:LOCALAPPDATA\\\\nvs\" -ErrorAction SilentlyContinue | Select-Object Name -First 5; Get-ChildItem \"$env:LOCALAPPDATA\\\\nvm\" -ErrorAction SilentlyContinue | Select-Object Name -First 5)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; Set-Location \"c:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; node --version; npm --version)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; Set-Location \"c:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; npx prisma generate 2>&1)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; Set-Location \"c:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; npx prisma --help 2>&1 | Select-Object -First 30)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; Set-Location \"c:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; npm list dotenv 2>&1)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; Set-Location \"c:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; npm install --save-dev dotenv 2>&1 | Select-Object -Last 5)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; Set-Location \"c:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; npx prisma migrate dev --name init 2>&1)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; Set-Location \"c:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; npm run seed 2>&1)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; Set-Location \"c:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; npm install -D tsx 2>&1 | Select-Object -Last 3)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; cd \"C:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; npm run seed)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\\\\node_modules\\\\@prisma\" -Directory)",
+      "Bash(Select-Object -First 20)",
+      "Bash(xargs grep -l \"adapter\\\\|DriverAdapter\")",
+      "Bash(grep -E \"\\\\.\\(ts|tsx|js\\)$\")",
+      "Bash(npm search *)",
+      "Bash(xargs grep -l \"adapter\")",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; cd \"C:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; npm install @prisma/adapter-neon)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; cd \"C:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; npm run build 2>&1)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; gh --version 2>&1; git --version 2>&1)",
+      "PowerShell(Get-Command git -ErrorAction SilentlyContinue)",
+      "PowerShell($gitPath = \"C:\\\\Program Files\\\\Git\\\\bin\"; $env:PATH = \"C:\\\\Program Files\\\\nodejs;$gitPath;$env:PATH\"; cd \"C:\\\\Users\\\\Usuario\\\\sigr-casa-llanera\"; git init; git add .)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Usuario\\sigr-casa-llanera\\src\\app\\api\\auth"
+    ]
+  }
+}

@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  rol           Rol       @default(CLIENTE)
+  createdAt     DateTime  @default(now())
+  accounts      Account[]
+  sessions      Session[]
+  pedidos       Pedido[]
+  reservas      Reserva[]
+}
+
+enum Rol {
+  CLIENTE
+  MESERO
+  CAJERO
+  ADMIN
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Categoria {
+  id     String  @id @default(cuid())
+  nombre String
+  platos Plato[]
+}
+
+model Plato {
+  id          String          @id @default(cuid())
+  nombre      String
+  descripcion String
+  precio      Decimal         @db.Decimal(10, 2)
+  imagenUrl   String?
+  disponible  Boolean         @default(true)
+  categoriaId String
+  categoria   Categoria       @relation(fields: [categoriaId], references: [id])
+  detalles    DetallePedido[]
+}
+
+model Mesa {
+  id        String     @id @default(cuid())
+  numero    Int        @unique
+  capacidad Int
+  estado    EstadoMesa @default(LIBRE)
+  pedidos   Pedido[]
+  reservas  Reserva[]
+}
+
+enum EstadoMesa {
+  LIBRE
+  OCUPADA
+  RESERVADA
+}
+
+model Pedido {
+  id        String        @id @default(cuid())
+  mesaId    String
+  meseroId  String
+  estado    EstadoPedido  @default(PENDIENTE)
+  total     Decimal?      @db.Decimal(10, 2)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  mesa      Mesa          @relation(fields: [mesaId], references: [id])
+  mesero    User          @relation(fields: [meseroId], references: [id])
+  detalles  DetallePedido[]
+}
+
+enum EstadoPedido {
+  PENDIENTE
+  EN_COCINA
+  LISTO
+  ENTREGADO
+  CANCELADO
+}
+
+model DetallePedido {
+  id             String  @id @default(cuid())
+  pedidoId       String
+  platoId        String
+  cantidad       Int
+  precioUnitario Decimal @db.Decimal(10, 2)
+  notas          String?
+  pedido         Pedido  @relation(fields: [pedidoId], references: [id])
+  plato          Plato   @relation(fields: [platoId], references: [id])
+}
+
+model Reserva {
+  id          String        @id @default(cuid())
+  usuarioId   String
+  mesaId      String
+  fecha       DateTime
+  numPersonas Int
+  estado      EstadoReserva @default(PENDIENTE)
+  notas       String?
+  createdAt   DateTime      @default(now())
+  usuario     User          @relation(fields: [usuarioId], references: [id])
+  mesa        Mesa          @relation(fields: [mesaId], references: [id])
+}
+
+enum EstadoReserva {
+  PENDIENTE
+  CONFIRMADA
+  CANCELADA
+}
+
+model CierreCaja {
+  id            String   @id @default(cuid())
+  cajeroId      String
+  fecha         DateTime @default(now())
+  totalEfectivo Decimal  @db.Decimal(10, 2)
+  totalTarjeta  Decimal  @db.Decimal(10, 2)
+  totalGeneral  Decimal  @db.Decimal(10, 2)
+  notas         String?
+}
