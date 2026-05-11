@@ -72,6 +72,16 @@ async function main() {
     await prisma.mesa.upsert({ where: { id: mesa.id }, update: {}, create: mesa })
   }
 
+  const domiciliarios = [
+    { id: 'dom-1', nombre: 'Juan Pérez', telefono: '3001234567' },
+    { id: 'dom-2', nombre: 'Carlos Ruiz', telefono: '3109876543' },
+    { id: 'dom-3', nombre: 'Andrés Mora', telefono: '3157654321' },
+  ]
+  for (const d of domiciliarios) {
+    await prisma.domiciliario.upsert({ where: { id: d.id }, update: {}, create: d })
+  }
+  console.log('✅ Domiciliarios creados')
+
   console.log('✅ Seed completado — Casa Llanera lista')
 }
 

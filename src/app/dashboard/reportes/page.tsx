@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { DollarSign, ClipboardList, Star, Download } from 'lucide-react'
+import { DollarSign, ClipboardList, Star, Download, Bike } from 'lucide-react'
 
 type ReporteData = {
   totalVentas: number
@@ -17,6 +17,16 @@ type ReporteData = {
     total: number | null
     createdAt: string
   }[]
+}
+
+type DomicilioReporte = {
+  id: string
+  clienteNombre: string
+  clienteBarrio: string
+  total: number
+  estado: string
+  createdAt: string
+  domiciliario?: { nombre: string }
 }
 
 function formatCOP(v: number) {
@@ -33,9 +43,13 @@ const estadoColors: Record<string, string> = {
 
 export default function ReportesPage() {
   const [data, setData] = useState<ReporteData | null>(null)
+  const [domicilios, setDomicilios] = useState<DomicilioReporte[]>([])
 
   useEffect(() => {
     fetch('/api/reportes').then((r) => r.json()).then(setData)
+    fetch('/api/domicilios').then((r) => r.json()).then((d: DomicilioReporte[]) =>
+      setDomicilios(d.filter((dm) => dm.estado === 'ENTREGADO'))
+    )
   }, [])
 
   function exportCSV() {
@@ -58,6 +72,9 @@ export default function ReportesPage() {
     a.click()
     URL.revokeObjectURL(url)
   }
+
+  const totalDomicilios = domicilios.length
+  const ingresosDomicilios = domicilios.reduce((acc, d) => acc + Number(d.total), 0)
 
   const stats = [
     { title: 'Ventas del día', value: data ? formatCOP(data.totalVentas) : '—', icon: DollarSign, color: 'text-green-600', bg: 'bg-green-50' },
@@ -125,6 +142,61 @@ export default function ReportesPage() {
             )}
           </TableBody>
         </Table>
+      </div>
+
+      {/* Sección domicilios */}
+      <div className="mt-8">
+        <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <Bike className="w-5 h-5 text-amber-600" /> Domicilios del día
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <Card className="border-0 shadow-sm">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-medium text-gray-500">Domicilios entregados</CardTitle>
+                <div className="p-2 rounded-lg bg-amber-50"><Bike className="w-4 h-4 text-amber-600" /></div>
+              </div>
+            </CardHeader>
+            <CardContent><p className="text-xl font-bold text-gray-900">{totalDomicilios}</p></CardContent>
+          </Card>
+          <Card className="border-0 shadow-sm">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-medium text-gray-500">Ingresos domicilios</CardTitle>
+                <div className="p-2 rounded-lg bg-green-50"><DollarSign className="w-4 h-4 text-green-600" /></div>
+              </div>
+            </CardHeader>
+            <CardContent><p className="text-xl font-bold text-gray-900">{formatCOP(ingresosDomicilios)}</p></CardContent>
+          </Card>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Cliente</TableHead>
+                <TableHead>Barrio</TableHead>
+                <TableHead>Total</TableHead>
+                <TableHead>Domiciliario</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {domicilios.map((d) => (
+                <TableRow key={d.id}>
+                  <TableCell className="font-medium">{d.clienteNombre}</TableCell>
+                  <TableCell>{d.clienteBarrio}</TableCell>
+                  <TableCell>{formatCOP(Number(d.total))}</TableCell>
+                  <TableCell className="text-sm text-gray-500">{d.domiciliario?.nombre ?? '—'}</TableCell>
+                </TableRow>
+              ))}
+              {domicilios.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={4} className="text-center text-gray-400 py-8">Sin domicilios entregados hoy</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   )

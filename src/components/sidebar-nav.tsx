@@ -16,6 +16,7 @@ import {
   LogOut,
   Menu,
   X,
+  Bike,
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -32,6 +33,7 @@ const allNavItems = [
   { href: '/dashboard/menu', label: 'Menú', icon: UtensilsCrossed, roles: ['ADMIN', 'MESERO'] },
   { href: '/dashboard/pedidos', label: 'Pedidos', icon: ClipboardList, roles: ['ADMIN', 'MESERO'] },
   { href: '/dashboard/reservas', label: 'Reservas', icon: CalendarDays, roles: ['ADMIN', 'MESERO'] },
+  { href: '/dashboard/domicilios', label: 'Domicilios', icon: Bike, roles: ['ADMIN', 'MESERO'] },
   { href: '/dashboard/facturacion', label: 'Facturación', icon: Receipt, roles: ['ADMIN', 'CAJERO'] },
   { href: '/dashboard/reportes', label: 'Reportes', icon: BarChart3, roles: ['ADMIN', 'CAJERO'] },
 ]

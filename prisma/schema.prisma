@@ -68,9 +68,10 @@ model Plato {
   precio      Decimal         @db.Decimal(10, 2)
   imagenUrl   String?
   disponible  Boolean         @default(true)
-  categoriaId String
-  categoria   Categoria       @relation(fields: [categoriaId], references: [id])
-  detalles    DetallePedido[]
+  categoriaId        String
+  categoria          Categoria          @relation(fields: [categoriaId], references: [id])
+  detalles           DetallePedido[]
+  detallesDomicilio  DetalleDomicilio[]
 }
 
 model Mesa {
@@ -147,4 +148,55 @@ model CierreCaja {
   totalTarjeta  Decimal  @db.Decimal(10, 2)
   totalGeneral  Decimal  @db.Decimal(10, 2)
   notas         String?
+}
+
+model Domiciliario {
+  id         String      @id @default(cuid())
+  nombre     String
+  telefono   String
+  activo     Boolean     @default(true)
+  createdAt  DateTime    @default(now())
+  domicilios Domicilio[]
+}
+
+model Domicilio {
+  id               String             @id @default(cuid())
+  clienteNombre    String
+  clienteTelefono  String
+  clienteDireccion String
+  clienteBarrio    String
+  notas            String?
+  estado           EstadoDomicilio    @default(RECIBIDO)
+  domiciliarioId   String?
+  domiciliario     Domiciliario?      @relation(fields: [domiciliarioId], references: [id])
+  total            Decimal            @db.Decimal(10, 2)
+  metodoPago       MetodoPago         @default(EFECTIVO)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  detalles         DetalleDomicilio[]
+}
+
+model DetalleDomicilio {
+  id             String    @id @default(cuid())
+  domicilioId    String
+  platoId        String
+  cantidad       Int
+  precioUnitario Decimal   @db.Decimal(10, 2)
+  notas          String?
+  domicilio      Domicilio @relation(fields: [domicilioId], references: [id])
+  plato          Plato     @relation(fields: [platoId], references: [id])
+}
+
+enum EstadoDomicilio {
+  RECIBIDO
+  EN_PREPARACION
+  EN_CAMINO
+  ENTREGADO
+  CANCELADO
+}
+
+enum MetodoPago {
+  EFECTIVO
+  TRANSFERENCIA
+  TARJETA
 }
