@@ -58,11 +58,17 @@ export function SidebarNav({ user }: { user: UserSession }) {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       <div className="p-6 border-b border-amber-100">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-2xl">🌾</span>
-          <span className="font-bold text-amber-900 text-lg">Casa Llanera</span>
+        <div className="flex items-center gap-2.5 mb-1">
+          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-800/20 border border-amber-600/40 flex items-center justify-center">
+            <svg viewBox="0 0 64 64" className="w-5 h-5" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M32 58C32 58 14 46 14 30C14 20 20 14 26 12C24 18 28 22 28 22C28 22 26 16 32 10C32 10 30 20 36 24C36 24 34 18 38 16C42 20 50 26 50 34C50 46 32 58 32 58Z" fill="#F97316" />
+              <path d="M32 52C32 52 20 43 20 33C20 26 24 22 28 20C27 24 30 27 30 27C30 27 29 23 32 18C32 18 31 25 36 28C36 28 34 24 37 22C40 25 44 30 44 36C44 45 32 52 32 52Z" fill="#FCD34D" />
+              <path d="M32 46C32 46 25 40 25 34C25 30 28 27 30 26C29.5 28.5 31 30.5 31 30.5C31 30.5 30 28 32 25C32 25 31.5 29 34 31C34 31 33 29 35 28C37 30 38 33 38 36C38 41 32 46 32 46Z" fill="#FEF3C7" />
+            </svg>
+          </div>
+          <span className="font-bold text-amber-900 text-lg leading-tight">Casa Llanera</span>
         </div>
-        <p className="text-xs text-amber-600">Sistema de Gestión</p>
+        <p className="text-xs text-amber-600 ml-10">Carne a la Llanera</p>
       </div>
 
       <div className="px-4 py-3 border-b border-amber-100">
@@ -120,7 +126,13 @@ export function SidebarNav({ user }: { user: UserSession }) {
       {/* Mobile header */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-amber-100 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xl">🌾</span>
+          <div className="w-7 h-7 rounded-full bg-amber-800/20 border border-amber-600/40 flex items-center justify-center">
+            <svg viewBox="0 0 64 64" className="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M32 58C32 58 14 46 14 30C14 20 20 14 26 12C24 18 28 22 28 22C28 22 26 16 32 10C32 10 30 20 36 24C36 24 34 18 38 16C42 20 50 26 50 34C50 46 32 58 32 58Z" fill="#F97316" />
+              <path d="M32 52C32 52 20 43 20 33C20 26 24 22 28 20C27 24 30 27 30 27C30 27 29 23 32 18C32 18 31 25 36 28C36 28 34 24 37 22C40 25 44 30 44 36C44 45 32 52 32 52Z" fill="#FCD34D" />
+              <path d="M32 46C32 46 25 40 25 34C25 30 28 27 30 26C29.5 28.5 31 30.5 31 30.5C31 30.5 30 28 32 25C32 25 31.5 29 34 31C34 31 33 29 35 28C37 30 38 33 38 36C38 41 32 46 32 46Z" fill="#FEF3C7" />
+            </svg>
+          </div>
           <span className="font-bold text-amber-900">Casa Llanera</span>
         </div>
         <button onClick={() => setMobileOpen(!mobileOpen)} className="p-1">
